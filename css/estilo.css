@@ -3,16 +3,34 @@
    já que o HTML foi escrito sem class nem id. */
 
 :root {
-  --cor-primaria: #0f766e;
-  --cor-primaria-escura: #0b4f4a;
-  --cor-destaque: #f59e0b;
-  --cor-texto: #1f2937;
-  --cor-texto-suave: #4b5563;
-  --cor-fundo: #f5faf9;
-  --cor-superficie: #ffffff;
-  --cor-borda: #cbd5d1;
-  --cor-erro: #b91c1c;
-  --raio: 0.5rem;
+  /* já existentes: --cor-primaria, --cor-primaria-escura, --cor-destaque,
+     --cor-texto, --cor-texto-suave, --cor-fundo, --cor-superficie,
+     --cor-borda, --cor-erro, --raio */
+
+  /* cores antes soltas no código */
+  --cor-primaria-clara: #e2f1ee;
+  --cor-destaque-clara: #fff7e0;
+  --cor-controle: #64748b;
+  --cor-rodape: #0b3b37;
+  --cor-erro-fundo: #fef2f2;
+  --cor-foco: #1d4ed8;
+
+  /* tipografia: escala modular 1,25 sobre base de 1rem */
+  --fonte-base: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --texto-1: 1rem;      /* 16px – corpo, figcaption, campos, botões */
+  --texto-2: 1.25rem;   /* 20px – h4 */
+  --texto-3: 1.563rem;  /* 25px – h3 */
+  --texto-4: 1.953rem;  /* 31px – h2 */
+  --texto-5: 2.441rem;  /* 39px – h1 (limite do clamp) */
+
+  /* espaçamento: múltiplos de 4px */
+  --espaco-1: 0.25rem;  /*  4px */
+  --espaco-2: 0.5rem;   /*  8px */
+  --espaco-3: 0.75rem;  /* 12px */
+  --espaco-4: 1rem;     /* 16px */
+  --espaco-6: 1.5rem;   /* 24px */
+  --espaco-8: 2rem;     /* 32px */
+  --espaco-12: 3rem;    /* 48px */
 }
 
 *, *::before, *::after { box-sizing: border-box; }
