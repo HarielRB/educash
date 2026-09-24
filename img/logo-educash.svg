@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 48" width="160" height="48" role="img" aria-label="EduCash">
+<circle cx="24" cy="24" r="21" fill="#0F766E"/>
+<path d="M24 37V22" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+<path d="M24 27C16 27 14 21 14 16C21 16 24 21 24 27Z" fill="#FBBF24"/>
+<path d="M24 22C24 16 28 12 34 12C34 18 30 22 24 22Z" fill="#fff"/>
+<text x="52" y="31" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#0F766E">Edu<tspan fill="#B45309">Cash</tspan></text></svg>
