@@ -10,69 +10,36 @@
 <body>
 
   <header>
-    <a href="index.html">
+    <a href="#/">
       <picture>
-        <source srcset="img/logo-educash.svg" type="image/svg+xml">
-        <img src="img/logo-educash.png" alt="EduCash, página inicial" width="160" height="48">
+        <source srcset="imagens/logo-educash.svg" type="image/svg+xml">
+        <img src="imagens/logo-educash.png" alt="EduCash, página inicial" width="160" height="48">
       </picture>
     </a>
     <nav aria-label="Navegação principal">
-      <ul>
-        <li><a href="index.html" aria-current="page">Início</a></li>
-        <li><a href="pages/projetos.html">Projetos</a></li>
-        <li><a href="pages/cadastro.html">Seja voluntário</a></li>
+      <input type="checkbox" id="menu-alternador" class="visualmente-oculto">
+      <label for="menu-alternador" aria-controls="menu-lista" aria-expanded="false">
+        <span></span><span></span><span></span>
+        <span class="visualmente-oculto">Abrir menu</span>
+      </label>
+      <ul id="menu-lista">
+        <li><a href="#/" data-rota="/">Início</a></li>
+        <li>
+          <a href="#/projetos" data-rota="/projetos">Projetos</a>
+          <ul>
+            <li><a href="#/projetos/jovens">Jovens e primeiro emprego</a></li>
+            <li><a href="#/projetos/familias">Famílias e orçamento doméstico</a></li>
+            <li><a href="#/projetos/empreendedores">Pequenos empreendedores</a></li>
+          </ul>
+        </li>
+        <li><a href="#/cadastro" data-rota="/cadastro">Seja voluntário</a></li>
       </ul>
     </nav>
   </header>
 
-  <main>
-
-    <section>
-      <h1>Dinheiro também se aprende: educação financeira para todos</h1>
-      <p>A EduCash é uma organização sem fins lucrativos que ensina orçamento, poupança e consumo consciente a quem mais precisa.</p>
-
-      <figure>
-        <picture>
-          <source srcset="img/oficina-orcamento-familiar.webp" type="image/webp">
-          <img
-            src="img/oficina-orcamento-familiar.jpg"
-            alt="Voluntária mostra uma planilha de gastos a jovens em uma oficina de orçamento"
-            width="1200" height="675">
-        </picture>
-        <figcaption>Oficina de orçamento familiar do projeto Primeiro Salário, em 2025.</figcaption>
-      </figure>
-    </section>
-
-    <section>
-      <h2>Quem somos</h2>
-      <p>Fundada em 2018 por profissionais de finanças e educadores, a EduCash acredita que decisões financeiras conscientes mudam a trajetória de uma família.</p>
-      <p><strong>Missão:</strong> democratizar o acesso à educação financeira por meio do trabalho voluntário.</p>
-    </section>
-
-    <section>
-      <h2>Nossas áreas de atuação</h2>
-
-      <article>
-        <h3>Jovens e primeiro emprego</h3>
-        <p>Oficinas sobre salário, planejamento de gastos e uso responsável do crédito.</p>
-      </article>
-      <article>
-        <h3>Famílias e orçamento doméstico</h3>
-        <p>Atendimento para organizar dívidas, criar reserva de emergência e planejar o mês.</p>
-      </article>
-      <article>
-        <h3>Pequenos empreendedores</h3>
-        <p>Noções de fluxo de caixa e separação entre contas pessoais e do negócio.</p>
-      </article>
-    </section>
-
-    <aside>
-      <h2>Como você pode ajudar</h2>
-      <p>Compartilhe seu conhecimento em oficinas ou ajude a divulgar a EduCash.</p>
-      <a href="pages/cadastro.html">Quero ser voluntário</a>
-    </aside>
-
-  </main>
+  <!-- js/app.js injeta aqui o conteúdo de html/inicio.html, html/projetos.html
+       ou html/cadastro.html, conforme a rota (#/, #/projetos, #/cadastro) -->
+  <main id="conteudo"></main>
 
   <footer>
     <h2>Contato</h2>
@@ -81,10 +48,13 @@
       <p>Rua das Acácias, 120, Centro, São Carlos, SP, CEP 13560-000</p>
       <p>Telefone: <a href="tel:+551635550123">(16) 3555-0123</a></p>
       <p>E-mail: <a href="mailto:contato@educash.org.br">contato@educash.org.br</a></p>
-      <p>Atendimento: segunda a sexta, das 9h às 17h</p>
     </address>
     <p><small>&copy; 2026 EduCash. Projeto acadêmico.</small></p>
   </footer>
 
+  <script src="js/mascaras.js" defer></script>
+  <script type="module" src="js/templates.js"></script>
+  <script type="module" src="js/feedback.js"></script>
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
