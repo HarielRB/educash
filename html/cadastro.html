@@ -1,0 +1,158 @@
+<h1>Seja um voluntário</h1>
+
+<section>
+  <h2>Por que se cadastrar</h2>
+  <p>Com seu cadastro, entramos em contato para apresentar os projetos e combinar a melhor forma de você contribuir. Campos com * são obrigatórios.</p>
+</section>
+
+<section>
+  <h2>Cadastros enviados neste navegador</h2>
+  <p>Lista guardada localmente, no seu próprio navegador — some se você limpar os dados do site.</p>
+  <ul id="historico-cadastros">
+    <li>Carregando…</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Formulário de cadastro</h2>
+
+  <div role="status" data-alerta="info">As vagas de instrutor de oficina para 2026 estão quase completas.</div>
+
+  <form action="#" method="post">
+
+    <fieldset>
+      <legend>Dados pessoais</legend>
+      <p>
+        <label>Nome completo *
+          <input type="text" name="nome" autocomplete="name" minlength="5" maxlength="100" required>
+        </label>
+      </p>
+      <p>
+        <label>CPF * (000.000.000-00)
+          <input type="text" name="cpf" inputmode="numeric" maxlength="14"
+                 pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" title="Use o formato 000.000.000-00" required>
+        </label>
+      </p>
+      <p>
+        <label>Data de nascimento *
+          <input type="date" name="nascimento" autocomplete="bday" required>
+        </label>
+      </p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Contato</legend>
+      <p>
+        <label>E-mail *
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+      </p>
+      <p>
+        <label>Telefone * ((00) 00000-0000)
+          <input type="tel" name="telefone" autocomplete="tel" maxlength="15"
+                 pattern="\(\d{2}\) \d{4,5}-\d{4}" title="Use o formato (00) 00000-0000" required>
+        </label>
+      </p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Endereço</legend>
+      <p>
+        <label>CEP * (00000-000)
+          <input type="text" name="cep" inputmode="numeric" autocomplete="postal-code" maxlength="9"
+                 pattern="\d{5}-\d{3}" title="Use o formato 00000-000" required>
+        </label>
+      </p>
+      <p>
+        <label>Logradouro *
+          <input type="text" name="logradouro" autocomplete="address-line1" required>
+        </label>
+      </p>
+      <p>
+        <label>Número *
+          <input type="text" name="numero" maxlength="10" required>
+        </label>
+      </p>
+      <p>
+        <label>Complemento
+          <input type="text" name="complemento" autocomplete="address-line2">
+        </label>
+      </p>
+      <p>
+        <label>Bairro *
+          <input type="text" name="bairro" required>
+        </label>
+      </p>
+      <p>
+        <label>Cidade *
+          <input type="text" name="cidade" autocomplete="address-level2" required>
+        </label>
+      </p>
+      <p>
+        <label>Estado *
+          <select name="estado" autocomplete="address-level1" required>
+            <option value="">Selecione</option>
+            <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+            <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+            <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+            <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+            <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+            <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+            <option>SP</option><option>SE</option><option>TO</option>
+          </select>
+        </label>
+      </p>
+    </fieldset>
+
+    <fieldset>
+      <legend>Como você quer contribuir</legend>
+
+      <fieldset>
+        <legend>Tipo de contribuição *</legend>
+        <p><label><input type="radio" name="contribuicao" value="voluntario" required> Voluntariado</label></p>
+        <p><label><input type="radio" name="contribuicao" value="doacao"> Doação financeira</label></p>
+        <p><label><input type="radio" name="contribuicao" value="ambos"> Ambos</label></p>
+      </fieldset>
+
+      <fieldset>
+        <legend>Projetos de interesse</legend>
+        <p><label><input type="checkbox" name="projetos" value="primeiro-salario"> Primeiro Salário <span data-etiqueta="jovens">Jovens</span></label></p>
+        <p><label><input type="checkbox" name="projetos" value="contas-em-dia"> Contas em Dia <span data-etiqueta="familias">Famílias</span></label></p>
+        <p><label><input type="checkbox" name="projetos" value="negocio-no-azul"> Negócio no Azul <span data-etiqueta="empreendedores">Empreendedores</span></label></p>
+      </fieldset>
+
+      <p>
+        <label>Mensagem (opcional)
+          <textarea name="mensagem" id="mensagem" rows="4" maxlength="500"></textarea>
+        </label>
+        <small id="contador-mensagem" aria-live="polite">500 caracteres restantes</small>
+      </p>
+    </fieldset>
+
+    <p>
+      <label>
+        <input type="checkbox" name="consentimento" value="sim" required>
+        Autorizo a EduCash a usar meus dados para entrar em contato. *
+      </label>
+    </p>
+
+    <p>
+      <button type="submit">Enviar cadastro</button>
+      <button type="reset">Limpar</button>
+    </p>
+
+  </form>
+
+  <dialog id="modal-confirmacao">
+    <h2>Confirmar cadastro</h2>
+    <p>Revise seus dados antes de enviar. Depois de confirmar, entraremos em contato pelo e-mail ou telefone informado.</p>
+    <form method="dialog">
+      <button type="button" data-cancelar>Voltar e revisar</button>
+      <button type="button" data-confirmar>Confirmar cadastro</button>
+    </form>
+  </dialog>
+
+  <div role="status" data-toast="sucesso" data-alerta="sucesso" id="toast-sucesso" hidden>
+    Cadastro enviado com sucesso! Em breve entraremos em contato.
+  </div>
+</section>
