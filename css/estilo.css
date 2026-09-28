@@ -1,29 +1,50 @@
 /* css/estilo.css
    Estilos da EduCash usando apenas seletores de elemento e de atributo,
-   já que o HTML foi escrito sem class nem id. */
+   já que o HTML foi escrito sem class nem id.
 
+   Estrutura do arquivo:
+   1. Design System (variáveis em :root)
+   2. Base
+   3. Componentes
+   4. Grid de 12 colunas e breakpoints (@media)
+*/
+
+/* ==========================================================
+   1. DESIGN SYSTEM
+   ========================================================== */
 :root {
-  /* já existentes: --cor-primaria, --cor-primaria-escura, --cor-destaque,
-     --cor-texto, --cor-texto-suave, --cor-fundo, --cor-superficie,
-     --cor-borda, --cor-erro, --raio */
-
-  /* cores antes soltas no código */
+  /* Cores – primárias */
+  --cor-primaria: #0f766e;
+  --cor-primaria-escura: #0b4f4a;
   --cor-primaria-clara: #e2f1ee;
+
+  /* Cores – secundárias */
+  --cor-destaque: #f59e0b;
   --cor-destaque-clara: #fff7e0;
+
+  /* Cores – neutras */
+  --cor-texto: #1f2937;
+  --cor-texto-suave: #4b5563;
+  --cor-fundo: #f5faf9;
+  --cor-superficie: #ffffff;
+  --cor-borda: #cbd5d1;
   --cor-controle: #64748b;
   --cor-rodape: #0b3b37;
+
+  /* Cores – estado */
+  --cor-erro: #b91c1c;
   --cor-erro-fundo: #fef2f2;
   --cor-foco: #1d4ed8;
 
-  /* tipografia: escala modular 1,25 sobre base de 1rem */
+  /* Tipografia – escala modular de razão 1,25 sobre base de 1rem */
   --fonte-base: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  --texto-1: 1rem;      /* 16px – corpo, figcaption, campos, botões */
+  --texto-1: 1rem;      /* 16px – corpo, legendas, campos, botões */
   --texto-2: 1.25rem;   /* 20px – h4 */
   --texto-3: 1.563rem;  /* 25px – h3 */
   --texto-4: 1.953rem;  /* 31px – h2 */
   --texto-5: 2.441rem;  /* 39px – h1 (limite do clamp) */
 
-  /* espaçamento: múltiplos de 4px */
+  /* Espaçamento – múltiplos de 4px */
   --espaco-1: 0.25rem;  /*  4px */
   --espaco-2: 0.5rem;   /*  8px */
   --espaco-3: 0.75rem;  /* 12px */
@@ -31,13 +52,26 @@
   --espaco-6: 1.5rem;   /* 24px */
   --espaco-8: 2rem;     /* 32px */
   --espaco-12: 3rem;    /* 48px */
+
+  /* Outros */
+  --raio: 0.5rem;
+  --calha: var(--espaco-4);  /* espaço entre colunas do grid */
+  --largura-submenu: 14rem;
 }
 
+/* ==========================================================
+   2. BASE
+   ========================================================== */
 *, *::before, *::after { box-sizing: border-box; }
+
+/* Garante que [hidden] sempre esconda o elemento, mesmo quando outra regra
+   (como a dos alertas/toast) também define "display" para o mesmo seletor. */
+[hidden] { display: none !important; }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-family: var(--fonte-base);
+  font-size: var(--texto-1);
   line-height: 1.6;
   color: var(--cor-texto);
   background: var(--cor-fundo);
@@ -53,9 +87,25 @@ a { color: var(--cor-primaria-escura); }
 a:hover { text-decoration-thickness: 2px; }
 a:focus-visible, button:focus-visible, input:focus-visible,
 select:focus-visible, textarea:focus-visible {
-  outline: 3px solid #1d4ed8;
+  outline: 3px solid var(--cor-foco);
   outline-offset: 2px;
 }
+
+/* Títulos */
+h1 { margin: 0 0 var(--espaco-4); font-size: clamp(1.75rem, 4vw, var(--texto-5)); line-height: 1.2; color: var(--cor-primaria-escura); }
+h2 { margin: 0 0 var(--espaco-3); padding-bottom: var(--espaco-1); font-size: var(--texto-4); line-height: 1.25; color: var(--cor-primaria-escura); border-bottom: 3px solid var(--cor-destaque); }
+h3 { margin: var(--espaco-6) 0 var(--espaco-2); font-size: var(--texto-3); line-height: 1.3; color: var(--cor-primaria); }
+h4 { margin: var(--espaco-4) 0 var(--espaco-1); font-size: var(--texto-2); line-height: 1.35; }
+
+/* Limita a largura das linhas de texto para leitura confortável */
+main p { max-width: 75ch; }
+
+figure { margin: var(--espaco-6) 0; }
+figcaption { margin-top: var(--espaco-2); font-size: var(--texto-1); color: var(--cor-texto-suave); }
+
+/* ==========================================================
+   3. COMPONENTES
+   ========================================================== */
 
 /* Cabeçalho e navegação */
 header {
@@ -63,44 +113,107 @@ header {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem 1.5rem;
+  gap: var(--espaco-4);
+  padding: var(--espaco-4) var(--espaco-6);
   background: var(--cor-superficie);
   border-bottom: 4px solid var(--cor-destaque);
 }
 header > a { display: block; }
-nav ul { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
+
+/* Utilitário: esconde visualmente mas mantém acessível a leitores de tela */
+.visualmente-oculto {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Botão hambúrguer: um <label> estilizado como ícone, ligado ao checkbox oculto */
+nav { position: relative; }
+nav input[type="checkbox"] { position: absolute; opacity: 0; pointer-events: none; }
+nav label[for] {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 2.5rem; height: 2.5rem;
+  padding: var(--espaco-2);
+  cursor: pointer;
+  border-radius: var(--raio);
+}
+nav label[for]:hover { background: var(--cor-primaria-clara); }
+nav label[for]::before, nav label[for]::after, nav label[for] span {
+  content: "";
+  display: block;
+  height: 2px;
+  background: var(--cor-primaria-escura);
+  border-radius: 2px;
+}
+
+/* Lista principal: escondida em telas estreitas até o checkbox ser marcado */
+nav ul {
+  display: none;
+  flex-direction: column;
+  gap: var(--espaco-1);
+  margin: 0;
+  padding: var(--espaco-2) 0;
+  list-style: none;
+}
+nav input[type="checkbox"]:checked ~ ul { display: flex; }
+
 nav a {
   display: block;
-  padding: 0.5rem 1rem;
+  padding: var(--espaco-2) var(--espaco-4);
   border-radius: var(--raio);
   font-weight: 600;
   text-decoration: none;
 }
-nav a:hover { background: #e2f1ee; }
-nav a[aria-current="page"] { background: var(--cor-primaria); color: #ffffff; }
+nav a:hover { background: var(--cor-primaria-clara); }
+nav a[aria-current="page"] { background: var(--cor-primaria); color: var(--cor-superficie); }
 
-/* Conteúdo principal */
-main { max-width: 60rem; margin: 0 auto; padding: 2rem 1.5rem; }
-main > section, main > aside { margin-block: 2.5rem; }
-
-h1 { margin: 0 0 1rem; font-size: clamp(1.75rem, 4vw, 2.5rem); line-height: 1.2; color: var(--cor-primaria-escura); }
-h2 { margin: 0 0 0.75rem; padding-bottom: 0.25rem; font-size: 1.6rem; color: var(--cor-primaria-escura); border-bottom: 3px solid var(--cor-destaque); }
-h3 { margin: 1.5rem 0 0.5rem; font-size: 1.25rem; color: var(--cor-primaria); }
-h4 { margin: 1rem 0 0.25rem; font-size: 1.05rem; }
-
-figure { margin: 1.5rem 0; }
-figcaption { margin-top: 0.5rem; font-size: 0.9rem; color: var(--cor-texto-suave); }
-
-/* Seções com cartões (áreas de atuação e projetos) */
-section:has(> article) {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-  gap: 1rem;
+/* Submenu (dropdown): fica dentro do <li> que tem um segundo <ul>, sempre escondido por padrão */
+nav li:has(> ul) > a::after { content: " ▾"; }
+nav li > ul {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding-left: var(--espaco-4);
 }
-section:has(> article) > h2 { grid-column: 1 / -1; }
+/* No celular, o submenu já aberto acompanha o menu principal (sem segundo toque) */
+nav input[type="checkbox"]:checked ~ ul li > ul { display: block; }
+
+/* A partir de 768px: menu horizontal sempre visível, botão hambúrguer escondido */
+@media (min-width: 48rem) {
+  nav label[for] { display: none; }
+  nav ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--espaco-2);
+    padding: 0;
+  }
+  nav li { position: relative; }
+  /* Dropdown por hover/foco em vez do checkbox */
+  nav li > ul {
+    position: absolute;
+    top: 100%; left: 0;
+    z-index: 1;
+    flex-direction: column;
+    width: var(--largura-submenu);
+    padding: var(--espaco-2) 0;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio);
+    box-shadow: 0 4px 10px rgb(0 0 0 / 10%);
+  }
+  nav li:hover > ul, nav li:focus-within > ul { display: block; }
+}
+
+/* Cartões (áreas de atuação e projetos) */
 article {
-  padding: 1rem 1.25rem;
+  padding: var(--espaco-4);
   background: var(--cor-superficie);
   border: 1px solid var(--cor-borda);
   border-radius: var(--raio);
@@ -109,16 +222,16 @@ article h3 { margin-top: 0; }
 
 /* Chamada para ação */
 aside {
-  padding: 1rem 1.5rem;
-  background: #fff7e0;
+  padding: var(--espaco-4) var(--espaco-6);
+  background: var(--cor-destaque-clara);
   border-left: 6px solid var(--cor-destaque);
   border-radius: var(--raio);
 }
 aside > a {
   display: inline-block;
-  padding: 0.6rem 1.25rem;
+  padding: var(--espaco-3) var(--espaco-4);
   background: var(--cor-primaria);
-  color: #ffffff;
+  color: var(--cor-superficie);
   font-weight: 700;
   text-decoration: none;
   border-radius: var(--raio);
@@ -126,49 +239,50 @@ aside > a {
 aside > a:hover { background: var(--cor-primaria-escura); }
 
 /* Listas */
-dt { margin-top: 1rem; font-weight: 700; }
-dd { margin: 0 0 0 1rem; }
-ol, ul { padding-left: 1.5rem; }
+dt { margin-top: var(--espaco-4); font-weight: 700; }
+dd { margin: 0 0 0 var(--espaco-4); }
+ol, ul { padding-left: var(--espaco-6); }
 
 /* Tabela */
 table { width: 100%; border-collapse: collapse; background: var(--cor-superficie); }
-caption { padding: 0.5rem 0; text-align: left; font-weight: 600; }
-th, td { padding: 0.6rem 0.8rem; text-align: left; border: 1px solid var(--cor-borda); }
-thead th { background: var(--cor-primaria); color: #ffffff; }
-tbody th { background: #eef8f6; }
+caption { padding: var(--espaco-2) 0; text-align: left; font-weight: 600; }
+th, td { padding: var(--espaco-3); text-align: left; border: 1px solid var(--cor-borda); }
+thead th { background: var(--cor-primaria); color: var(--cor-superficie); }
+tbody th { background: var(--cor-primaria-clara); }
 
 /* Formulário */
 form {
-  padding: 1.5rem;
+  padding: var(--espaco-6);
   background: var(--cor-superficie);
   border: 1px solid var(--cor-borda);
   border-radius: var(--raio);
 }
-fieldset { margin: 0 0 1.5rem; padding: 1rem 1.25rem; border: 1px solid var(--cor-borda); border-radius: var(--raio); }
-fieldset fieldset { margin: 1rem 0; background: var(--cor-fundo); }
-legend { padding: 0 0.5rem; font-weight: 700; color: var(--cor-primaria-escura); }
+fieldset { margin: 0 0 var(--espaco-6); padding: var(--espaco-4); border: 1px solid var(--cor-borda); border-radius: var(--raio); }
+fieldset fieldset { margin: var(--espaco-4) 0; background: var(--cor-fundo); }
+legend { padding: 0 var(--espaco-2); font-weight: 700; color: var(--cor-primaria-escura); }
 
-form p { margin: 0 0 1rem; }
+form p { margin: 0 0 var(--espaco-4); }
 form label { display: block; font-weight: 600; }
 
 input:not([type="radio"]):not([type="checkbox"]), select, textarea {
   display: block;
   width: 100%;
-  margin-top: 0.35rem;
-  padding: 0.6rem 0.75rem;
+  margin-top: var(--espaco-2);
+  padding: var(--espaco-3);
   font: inherit;
   font-weight: 400;
   color: var(--cor-texto);
-  background: #ffffff;
-  border: 2px solid #64748b;
+  background: var(--cor-superficie);
+  border: 2px solid var(--cor-controle);
   border-radius: var(--raio);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 textarea { resize: vertical; }
 
 label:has(> input[type="radio"]), label:has(> input[type="checkbox"]) {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: var(--espaco-3);
   font-weight: 400;
 }
 input[type="radio"], input[type="checkbox"] { width: 1.2rem; height: 1.2rem; accent-color: var(--cor-primaria); }
@@ -176,34 +290,192 @@ input[type="radio"], input[type="checkbox"] { width: 1.2rem; height: 1.2rem; acc
 /* Feedback de validação: só aparece depois que a pessoa interage com o campo */
 input:user-invalid, select:user-invalid, textarea:user-invalid {
   border-color: var(--cor-erro);
-  background: #fef2f2;
+  background: var(--cor-erro-fundo);
+  box-shadow: 0 0 0 3px rgb(185 28 28 / 15%);
 }
 input:user-valid:not([type="radio"]):not([type="checkbox"]), select:user-valid {
   border-color: var(--cor-primaria);
+  box-shadow: 0 0 0 3px rgb(15 118 110 / 12%);
+}
+
+input:disabled, select:disabled, textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background: var(--cor-fundo);
+}
+
+/* Mensagens de erro injetadas por js/feedback.js junto a cada campo inválido */
+[data-erro-campo] {
+  display: block;
+  margin-top: var(--espaco-1);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-erro);
 }
 
 button {
-  padding: 0.7rem 1.4rem;
+  padding: var(--espaco-3) var(--espaco-6);
   font: inherit;
   font-weight: 700;
   border: 2px solid var(--cor-primaria);
   border-radius: var(--raio);
   cursor: pointer;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
 }
-button[type="submit"] { color: #ffffff; background: var(--cor-primaria); }
+button[type="submit"] { color: var(--cor-superficie); background: var(--cor-primaria); }
 button[type="submit"]:hover { background: var(--cor-primaria-escura); }
-button[type="reset"] { color: var(--cor-primaria-escura); background: #ffffff; }
-button[type="reset"]:hover { background: #e2f1ee; }
+button[type="submit"]:active { background: var(--cor-primaria-escura); box-shadow: inset 0 2px 4px rgb(0 0 0 / 25%); transform: translateY(1px); }
+button[type="reset"] { color: var(--cor-primaria-escura); background: var(--cor-superficie); }
+button[type="reset"]:hover { background: var(--cor-primaria-clara); }
+button[type="reset"]:active { background: var(--cor-primaria-clara); box-shadow: inset 0 2px 4px rgb(0 0 0 / 12%); transform: translateY(1px); }
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  box-shadow: none;
+  transform: none;
+  border-color: var(--cor-borda);
+  background: var(--cor-fundo);
+  color: var(--cor-texto-suave);
+}
 
 /* Rodapé */
-footer { margin-top: 3rem; padding: 2rem 1.5rem; color: #e6f4f1; background: #0b3b37; }
-footer h2 { color: #ffffff; border-bottom-color: var(--cor-destaque); }
-footer a { color: #fde68a; }
+footer { margin-top: var(--espaco-12); padding: var(--espaco-8) var(--espaco-6); color: var(--cor-primaria-clara); background: var(--cor-rodape); }
+footer h2 { color: var(--cor-superficie); border-bottom-color: var(--cor-destaque); }
+footer a { color: var(--cor-destaque); }
 address { font-style: normal; }
-address p { margin: 0.25rem 0; }
+address p { margin: var(--espaco-1) 0; }
 
+/* ==========================================================
+   3.1 COMPONENTES DE FEEDBACK (badges, alertas, modal, toast)
+   Usam apenas seletores de elemento/atributo, sem class nem id,
+   para manter coerência com o restante do HTML e ficarem prontos
+   para o back-end apenas inserir os elementos e atributos.
+   ========================================================== */
+
+/* Badges: pequenas etiquetas de categorização semântica.
+   Uso: <span data-etiqueta="jovens">Jovens</span> */
+[data-etiqueta] {
+  display: inline-block;
+  padding: var(--espaco-1) var(--espaco-3);
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.4;
+  border-radius: 999px;
+  background: var(--cor-primaria-clara);
+  color: var(--cor-primaria-escura);
+  border: 1px solid transparent;
+}
+[data-etiqueta="familias"] { background: var(--cor-destaque-clara); color: #8a5a00; }
+[data-etiqueta="empreendedores"] { background: #e6e9f5; color: var(--cor-primaria-escura); }
+[data-etiqueta="sucesso"] { background: var(--cor-primaria-clara); color: var(--cor-primaria-escura); }
+[data-etiqueta="erro"] { background: var(--cor-erro-fundo); color: var(--cor-erro); }
+[data-etiqueta="andamento"] { background: var(--cor-primaria); color: var(--cor-superficie); }
+[data-etiqueta="planejamento"] { background: var(--cor-destaque); color: var(--cor-primaria-escura); }
+
+/* Alertas: mensagens de status embutidas no fluxo da página.
+   Uso: <div role="alert" data-alerta="sucesso">…</div> */
+[role="alert"], [role="status"] {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--espaco-3);
+  padding: var(--espaco-4);
+  margin-block: var(--espaco-4);
+  border: 1px solid transparent;
+  border-left-width: 6px;
+  border-radius: var(--raio);
+  font-weight: 600;
+}
+[data-alerta="sucesso"] { background: var(--cor-primaria-clara); border-color: var(--cor-primaria); color: var(--cor-primaria-escura); }
+[data-alerta="erro"] { background: var(--cor-erro-fundo); border-color: var(--cor-erro); color: var(--cor-erro); }
+[data-alerta="info"] { background: #eaf1fb; border-color: var(--cor-foco); color: #1e3a8a; }
+[data-alerta]::before { content: ""; flex-shrink: 0; width: 1.25rem; height: 1.25rem; margin-top: 0.1rem; border-radius: 50%; background: currentColor; }
+
+/* Modal: elemento nativo <dialog>, sem necessidade de JS para o estilo */
+dialog {
+  max-width: 32rem;
+  width: min(90vw, 32rem);
+  padding: var(--espaco-6);
+  border: none;
+  border-radius: var(--raio);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 20%);
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+}
+dialog::backdrop { background: rgb(15 23 20 / 55%); }
+dialog h2 { margin-top: 0; }
+dialog menu, dialog > form { display: flex; justify-content: flex-end; gap: var(--espaco-3); margin: var(--espaco-4) 0 0; padding: 0; }
+
+/* Toast: notificação não obstrutiva, fixada em um canto da tela.
+   Uso: <div role="status" data-toast="sucesso">…</div> */
+[data-toast] {
+  position: fixed;
+  right: var(--espaco-4);
+  bottom: var(--espaco-4);
+  z-index: 10;
+  max-width: 22rem;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 18%);
+}
+
+/* ==========================================================
+   4. GRID DE 12 COLUNAS E BREAKPOINTS
+   Abordagem mobile-first: por padrão tudo ocupa as 12 colunas
+   (1 coluna visual); os @media ampliam o layout aos poucos.
+   ========================================================== */
+
+/* Contêiner principal em 12 colunas */
+main {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: var(--espaco-8) var(--espaco-6);
+}
+main > * { grid-column: 1 / -1; min-width: 0; }
+main > section, main > aside { margin-block: var(--espaco-8); }
+
+/* Seções com cartões: também em 12 colunas */
+section:has(> article) {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--calha);
+}
+section:has(> article) > :not(article) { grid-column: 1 / -1; }
+article { grid-column: span 12; }   /* celular: 1 cartão por linha */
+
+/* Cenário 1 – até 640px: cabeçalho empilhado e margens compactas */
 @media (max-width: 40rem) {
   header { flex-direction: column; align-items: flex-start; }
-  main { padding: 1.5rem 1rem; }
-  form { padding: 1rem; }
+  main { padding: var(--espaco-6) var(--espaco-4); }
+  form { padding: var(--espaco-4); }
+}
+
+/* Cenário 2 – a partir de 480px (celulares grandes): 2 cartões por linha */
+@media (min-width: 30rem) {
+  article { grid-column: span 6; }
+}
+
+/* Cenário 3 – a partir de 768px (tablets): margens internas maiores */
+@media (min-width: 48rem) {
+  main { padding: var(--espaco-12) var(--espaco-8); }
+}
+
+/* Cenário 4 – a partir de 1024px (notebooks): 3 cartões; chamada centralizada */
+@media (min-width: 64rem) {
+  main { max-width: 72rem; }
+  article { grid-column: span 4; }
+  main > aside { grid-column: 3 / span 8; }
+}
+
+/* Cenário 5 – a partir de 1440px (desktops): 4 cartões */
+@media (min-width: 90rem) {
+  main { max-width: 90rem; }
+  article { grid-column: span 3; }
+  main > aside { grid-column: 4 / span 6; }
+}
+
+/* Cenário 6 – a partir de 1920px (monitores panorâmicos): fonte-base ampliada */
+@media (min-width: 120rem) {
+  html { font-size: 112.5%; }
+  main { max-width: 100rem; }
 }
